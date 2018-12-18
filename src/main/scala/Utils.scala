@@ -27,7 +27,7 @@ import geotrellis.raster.io.geotiff.compression.NoCompression
 import geotrellis.raster.resample.{ResampleMethod, Sum}
 import geotrellis.spark._
 import geotrellis.spark.io._
-import geotrellis.spark.io.cog.COGLayer
+import geotrellis.spark.io.cog.{COGLayer, COGLayerWriter}
 import geotrellis.spark.io.file.FileAttributeStore
 import geotrellis.spark.io.file.cog.{FileCOGLayerReader, FileCOGLayerWriter}
 import geotrellis.spark.io.index.ZCurveKeyIndexMethod
@@ -147,16 +147,18 @@ object Utils {
     */
   def saveCog(rdd: MultibandTileLayerRDD[SpatialKey], catalog: String, name: String, zooms: (Int, Int))(implicit spark: SparkSession): Unit = {
     val attributeStore = FileAttributeStore(catalog)
+    val (zoom, minZoom) = zooms
+    val options = COGLayerWriter.Options(
+      compression = NoCompression,
+      maxTileSize = 4096
+    )
     val writer = FileCOGLayerWriter(attributeStore)
 
-    val (zoom, minZoom) = zooms
     val cogLayer =
       COGLayer.fromLayerRDD(
         rdd,
         zoom,
-        compression = NoCompression,
-        maxTileSize = 4096,
-        minZoom = Some(minZoom) // XXX: this doesn't really do anything
+        options =  options
       )
 
     val keyIndexes =

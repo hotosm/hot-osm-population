@@ -6,7 +6,7 @@ WORKDIR /task
 
 ENV SPARK_HOME /opt/spark
 RUN mkdir -p /opt/spark
-RUN curl http://www.trieuvan.com/apache/spark/spark-2.2.1/spark-2.2.1-bin-hadoop2.7.tgz \
+RUN curl https://archive.apache.org/dist/spark/spark-2.2.1/spark-2.2.1-bin-hadoop2.7.tgz \
     | tar --strip-components=1 -xzC /opt/spark
 COPY log4j.properties /opt/spark/conf
 

@@ -64,7 +64,7 @@ object Output {
     import spray.json._
     import DefaultJsonProtocol._
 
-    val zoom = 16
+    val zoom = 12
     val layer = scored_tiles.toMultibandTileLayerRDD($"pop", $"osm", $"prediction").left.get
 
     val statsToJson = { res: Result =>

@@ -92,7 +92,7 @@ object WorldPop {
 
     val tiff: SinglebandGeoTiff = {
       val rr = Utils.rangeReader(file)
-      GeoTiffReader.readSingleband(rr, decompress = false, streaming = true)
+      GeoTiffReader.readSingleband(rr)
     }
 
     // TODO: optionally resample to match the layout cellSize
@@ -114,7 +114,7 @@ object WorldPop {
     val tileRdd: RDD[(SpatialKey, Tile)] = sc.parallelize(partitions, partitions.length).mapPartitions { part: Iterator[Array[TileBounds]] =>
       val tiff: SinglebandGeoTiff = {
         val rr = Utils.rangeReader(file)
-        GeoTiffReader.readSingleband(rr, decompress = false, streaming = true)
+        GeoTiffReader.readSingleband(rr)
       }
 
       part.flatMap { bounds =>
@@ -151,7 +151,7 @@ object WorldPop {
 
     val tiff: SinglebandGeoTiff = {
       val rr = Utils.rangeReader(file)
-      GeoTiffReader.readSingleband(rr, decompress = false, streaming = true)
+      GeoTiffReader.readSingleband(rr)
     }
     val mapTransform = layout.mapTransform
     val tileBounds: GridBounds = mapTransform.extentToBounds(tiff.extent)
@@ -176,7 +176,7 @@ object WorldPop {
       sc.parallelize(partitions, partitions.length).mapPartitions { part =>
         val tiff: SinglebandGeoTiff = {
           val rr = Utils.rangeReader(file)
-          GeoTiffReader.readSingleband(rr, decompress = false, streaming = true)
+          GeoTiffReader.readSingleband(rr)
         }
 
         part.flatMap { bounds =>

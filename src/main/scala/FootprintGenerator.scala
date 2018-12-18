@@ -165,7 +165,7 @@ case class FootprintGenerator(qaTilesPath: String, country: String, tileCrs: CRS
     var accum = 0.0
     var count = 0
     countryBound.foreach(buildings.rasterExtent, Rasterizer.Options(true, PixelIsArea)){ (x: Int, y: Int) =>
-      val v = buildings.getDouble(x, y)
+      val v = buildings.tile.getDouble(x, y)
       if (!v.isNaN) accum += v
       count += 1
     }
